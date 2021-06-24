@@ -26,3 +26,43 @@ body {
     height: 200px;
     font-size: 1.6rem;
 }
+
+.form-container {
+    padding: 20px 30px;
+}
+
+.todo-form {
+    display: flex;
+}
+
+.todo-input {
+    height: 2.4rem;
+    width: 400px;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-family: 'Cabin', sans-serif;
+}
+
+.btn {
+    height: 2.4rem;
+    border: none;
+    background: #fff;
+    width: 2.4rem;
+    transition: all 0.3s ease 0s;
+}
+
+.btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+.filter-todo {
+    height: 2.4rem;
+    border: none;
+    outline: none;
+    background: #000;
+    color: #fff;
+    font-family: 'Cabin', sans-serif;
+}
