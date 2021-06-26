@@ -11,6 +11,10 @@ body {
     color: #fff;
 }
 
+/* li {
+    ;
+} */
+
 .wrapper {
     width: 100%;
     height: 100%;
@@ -115,6 +119,6 @@ body {
     background: #fff;
 }
 
-.completed {
+.completed li {
     text-decoration: line-through;
 }
