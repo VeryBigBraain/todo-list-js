@@ -1,13 +1,14 @@
 const todosContainer = document.querySelector('.todo-container');
 const todos = [
     {id: 1, content: 'I am not gay', type: 'completed'},
-    {id: 2, content: 'Misha am not gay(yes he is)', type: 'uncompleted'}
+    {id: 2, content: 'Misha is not gay(yes he is)', type: 'uncompleted'}
 ];
 
 function showTodos() {
     todos.forEach(todo => {
         todoNode = document.createElement('div');
         todoNode.classList.add('todo__item', todo.type);
+        todoNode.id = todo.id;  
 
         todoContent = document.createElement('li');
         todoContent.classList.add('todo__content');
