@@ -1,15 +1,17 @@
 const todosContainer = document.querySelector('.todo-container');
 const addTodoBtn = document.querySelector('.add-btn');
 const inputTodo = document.querySelector('.todo-input');
+const btn = document.querySelectorAll('.btn');
+
 const todos = [
-    {id: 1, content: 'I am not gay', type: 'completed'},
-    {id: 2, content: 'Misha is not gay(yes he is)', type: 'uncompleted'}
+    {id: 1, content: 'bla bla bla', type: 'completed'},
+    {id: 2, content: 'Misha is not bla bla bla(yes he is)', type: 'uncompleted'}
 ];
 
 function showTodos(todo) {
     todoNode = document.createElement('div');
     todoNode.classList.add('todo__item', todo.type);
-    todoNode.id = todo.id;  
+    todoNode.id = todo.id;
 
     todoContent = document.createElement('li');
     todoContent.classList.add('todo__content');
@@ -43,11 +45,35 @@ function addTodo(e) {
         content: inputTodo.value,
         type: 'uncompleted'
     });
+    todos.push(todo);
 
     inputTodo.value = '';
     showTodos(todo);
 }
 
+function deleteCheck(e) {
+    const item = e.target;
+    //Delete
+    if (item.classList[0] === 'delete-btn') {
+        const todo = item.parentElement;
+        todos.filter(arrTodo => todo.id !== arrTodo.id);
+        todo.remove();
+    }
+
+    //Check mark
+    if (item.classList[0] === 'complete-btn') {
+        const todo = item.parentElement;
+        todo.classList.toggle('complete');
+        todos.forEach((arrTodo => {
+            if (todo.id === arrTodo.id) 
+            {
+                arrTodo.type = todo.classList[length];
+            };
+        }));
+    };
+};
+
 todos.forEach(todo => showTodos(todo));
 
 addTodoBtn.addEventListener('click', addTodo);
+todosContainer.addEventListener('click', deleteCheck);
