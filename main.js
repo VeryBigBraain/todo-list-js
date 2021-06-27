@@ -3,10 +3,23 @@ const addTodoBtn = document.querySelector('.add-btn');
 const inputTodo = document.querySelector('.todo-input');
 const btn = document.querySelectorAll('.btn');
 
-const todos = [
-    {id: 1, content: 'bla bla bla', type: 'completed'},
-    {id: 2, content: 'Misha is not bla bla bla(yes he is)', type: 'uncompleted'}
-];
+const todos = [];
+
+getLocalStorageData();
+todos.forEach(todo => showTodos(todo));
+
+addTodoBtn.addEventListener('click', addTodo);
+todosContainer.addEventListener('click', deleteCheck);
+
+function getLocalStorageData() {
+
+    keys = Object.keys(localStorage),
+    i = keys.length;
+
+    while ( i-- ) {
+        todos.push(JSON.parse( localStorage.getItem(keys[i]) ) );
+    }
+}
 
 function showTodos(todo) {
     todoNode = document.createElement('div');
@@ -47,8 +60,12 @@ function addTodo(e) {
     });
     todos.push(todo);
 
+    localStorage.setItem(todo.id, JSON.stringify(todo));
+
     inputTodo.value = '';
     showTodos(todo);
+
+    console.log(todos);
 }
 
 function deleteCheck(e) {
@@ -57,6 +74,7 @@ function deleteCheck(e) {
     if (item.classList[0] === 'delete-btn') {
         const todo = item.parentElement;
         todos.filter(arrTodo => todo.id !== arrTodo.id);
+        localStorage.removeItem(todo.id);
         todo.remove();
     }
 
@@ -65,15 +83,14 @@ function deleteCheck(e) {
         const todo = item.parentElement;
         todo.classList.toggle('complete');
         todos.forEach((arrTodo => {
-            if (todo.id === arrTodo.id) 
+            if (todo.id == arrTodo.id) 
             {
-                arrTodo.type = todo.classList[length];
+                arrTodo.type = todo.classList[todo.classList.length - 1];
+                localStorage.removeItem(arrTodo.id);
+                localStorage.setItem(arrTodo.id, JSON.stringify(arrTodo));
             };
         }));
     };
 };
 
-todos.forEach(todo => showTodos(todo));
 
-addTodoBtn.addEventListener('click', addTodo);
-todosContainer.addEventListener('click', deleteCheck);
