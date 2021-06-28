@@ -5,16 +5,21 @@ const btn = document.querySelectorAll('.btn');
 
 let todos = [];
 
-getLocalStorageData();
-todos.sort(byTodoField('id'));
-todos.forEach(todo => showTodos(todo));
+prepareTodosToShow();
 
 addTodoBtn.addEventListener('click', addTodo);
 todosContainer.addEventListener('click', deleteCheck);
+window.addEventListener('storage', updateTodos);
+
+function prepareTodosToShow() {
+    getLocalStorageData();
+    todos.sort(byTodoField('id'));
+    todos.forEach(todo => showTodos(todo));
+};
 
 function byTodoField(field) {
     return (a, b) => (a[field] > b[field] ? 1 : -1);
-}
+};
 
 function getLocalStorageData() {
 
@@ -24,7 +29,7 @@ function getLocalStorageData() {
     while ( i-- ) {
         todos.push(JSON.parse( localStorage.getItem(keys[i]) ) );
     }
-}
+};
 
 function showTodos(todo) {
     todoNode = document.createElement('div');
@@ -69,9 +74,7 @@ function addTodo(e) {
 
     inputTodo.value = '';
     showTodos(todo);
-
-    console.log(todos);
-}
+};
 
 function deleteCheck(e) {
     const item = e.target;
@@ -97,5 +100,12 @@ function deleteCheck(e) {
         }));
     };
 };
+
+function updateTodos() {
+    todos = [];
+    todosContainer.innerHTML = '';
+
+    prepareTodosToShow();
+}
 
 
