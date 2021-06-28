@@ -8,6 +8,8 @@ html,
 body {
     font-family: 'Cabin', sans-serif;
     color: #fff;
+    min-height: 100vh;
+    background: rgba(179,179,179,1);
 }
 
 .wrapper {

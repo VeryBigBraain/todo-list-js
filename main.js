@@ -3,13 +3,18 @@ const addTodoBtn = document.querySelector('.add-btn');
 const inputTodo = document.querySelector('.todo-input');
 const btn = document.querySelectorAll('.btn');
 
-const todos = [];
+let todos = [];
 
 getLocalStorageData();
+todos.sort(byTodoField('id'));
 todos.forEach(todo => showTodos(todo));
 
 addTodoBtn.addEventListener('click', addTodo);
 todosContainer.addEventListener('click', deleteCheck);
+
+function byTodoField(field) {
+    return (a, b) => (a[field] > b[field] ? 1 : -1);
+}
 
 function getLocalStorageData() {
 
