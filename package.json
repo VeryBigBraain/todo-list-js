@@ -1,0 +1,34 @@
+{
+  "name": "jstodo",
+  "version": "1.0.0",
+  "description": "Vanilla js todo-list",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VeryBigBraain/todo-list-js.git"
+  },
+  "keywords": [
+    "js",
+    "css",
+    "todo"
+  ],
+  "author": "Никита Пожидаев",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VeryBigBraain/todo-list-js/issues"
+  },
+  "homepage": "https://github.com/VeryBigBraain/todo-list-js#readme"
+}
