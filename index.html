@@ -2,48 +2,40 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
-    <link href="https://css.gg/add-r.css" rel="stylesheet">
-    <link href="https://css.gg/trash-empty.css" rel="stylesheet">
-    <link href="https://css.gg/check-o.css" rel="stylesheet">
-    <title>ToDo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
+  <link href="https://css.gg/add-r.css" rel="stylesheet">
+  <link href="https://css.gg/trash-empty.css" rel="stylesheet">
+  <link href="https://css.gg/check-o.css" rel="stylesheet">
+  <title>ToDo</title>
 </head>
 
 <body>
-    <div class="wrapper">
-        <header>
-            <div class="header-container">
-                <h1>Todo List</h1>
-            </div>
-        </header>
-        <main>
-            <div class="form-container">
-                <form class="todo-form" action="submit">
-                    <input type="text" name="todo-input" class="todo-input">
-                    <button class="add-btn btn" type="submit">
-                        <i class="gg-add-r"></i>
-                    </button>
-                    <div class="todo-select">
-                        <select name="todos-select" class="filter-todo">
-                            <option value="all">All</option>
-                            <option value="completed">Completed</option>
-                            <option value="uncompleted">Uncompleted</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <ul class="todo-container">
-                
-            </ul>
-        </main>
-    </div>
-
-    <script src="main.js"></script>
+  <div class="wrapper">
+    <header>
+      <div class="header-container">
+        <h1>Todo List</h1>
+      </div>
+    </header>
+    <main>
+      <div class="form-container">
+        <form class="todo-form" action="submit">
+          <input type="text" name="todo-input" class="todo-input">
+          <button class="add-btn btn" type="submit">
+            <i class="gg-add-r"></i>
+          </button>
+        </form>
+      </div>
+      <ul class="todo-container">
+          
+      </ul>
+    </main>
+  </div>
+  <script src="main.js"></script>
 </body>
 
 </html>
