@@ -74,9 +74,10 @@ function deleteCheck(e) {
     todo.classList.toggle('complete');
     todos.forEach(((arrTodo) => {
       if (todo.id === String(arrTodo.id)) {
+        const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
         localStorage.removeItem(arrTodo.id);
-        localStorage.setItem(arrTodo.id, JSON.stringify(arrTodo));
-        return { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
+        localStorage.setItem(arrTodo.id, JSON.stringify(updatedTodo));
+        return updatedTodo;
       }
       return arrTodo;
     }));
