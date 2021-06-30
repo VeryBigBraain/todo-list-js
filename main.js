@@ -8,11 +8,13 @@ function byTodoField(field) {
 }
 
 function getLocalStorageData() {
-  const keys = Object.keys(localStorage);
-  let i = keys.length - 1;
-  while (i) {
-    todos.push(JSON.parse(localStorage.getItem(keys[i])));
-    i -= 1;
+  if (localStorage.length > 0) {
+    const keys = Object.keys(localStorage);
+    let i = keys.length - 1;
+    while (i + 1) {
+      todos.push(JSON.parse(localStorage.getItem(keys[i])));
+      i -= 1;
+    }
   }
 }
 
@@ -65,8 +67,8 @@ function deleteCheck(e) {
   if (item.classList[0] === 'delete-btn') {
     const todo = item.parentElement;
     todos.filter((arrTodo) => todo.id !== arrTodo.id);
-    localStorage.removeItem(todo.id);
     todo.remove();
+    localStorage.removeItem(todo.id);
   }
   // Check mark
   if (item.classList[0] === 'complete-btn') {
@@ -76,7 +78,7 @@ function deleteCheck(e) {
       if (todo.id === String(arrTodo.id)) {
         const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
         localStorage.removeItem(arrTodo.id);
-        localStorage.setItem(arrTodo.id, JSON.stringify(updatedTodo));
+        localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
         return updatedTodo;
       }
       return arrTodo;
