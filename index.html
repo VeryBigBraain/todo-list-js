@@ -20,22 +20,29 @@
         <form action="submit">
           <input type="text" name="todo-input" class="todo-input">
           <button class="todo-button" type="submit">
-            +
+             +
           </button>
-          <div class="select">
-            <select name="todos-select" class="filter-todo">
-              <option value="all">All</option>
-              <option value="completed">Completed</option>
-              <option value="uncompleted">Uncompleted</option>
-            </select>
-          </div>
         </form>
       </div>
       <div class="todo-container">
-        <ul class="todo-list"></ul>
+        <!-- Временные тодо для визуализации -->
+        <div class="todo__item completed">
+          <div class="todo__content">I am first todo</div>
+          <div class="todo__buttons-container">
+            <button class="complete-btn btn">C</button>
+            <button class="delete-btn btn">D</button>
+          </div>
+        </div>
+        <div class="todo__item uncompleted">
+          <div class="todo__content">Hello I'm second</div>
+          <div class="todo__buttons-container">
+            <button class="complete-btn btn">C</button>
+            <button class="delete-btn btn">D</button>
+          </div>
+        </div>
       </div>
     </main>
-</div>
+  </div>
 </body>
 
 </html>
