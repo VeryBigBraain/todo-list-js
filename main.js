@@ -42,4 +42,4 @@ function addTodo(e) {
   return true;
 }
 
-addTodoBtn.addEventListener('click', addTodo);
+addTodoBtn.addEventListener('submit', addTodo);
