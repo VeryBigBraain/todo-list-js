@@ -24,6 +24,7 @@ function showTodo(todo) {
   todoNode.appendChild(deleteBtn);
   todosContainer.appendChild(todoNode);
 }
+
 function addTodo(e) {
   e.preventDefault();
   if (inputTodo.value.trim() !== '') {
