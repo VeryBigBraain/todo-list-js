@@ -2,7 +2,7 @@ const todosContainer = document.querySelector('.todo-container');
 const addTodoBtn = document.querySelector('.add-btn');
 const inputTodo = document.querySelector('.todo-input');
 
-function showTodo(todo) {
+function createTodoItem(todo) {
   const todoNode = document.createElement('div');
   todoNode.classList.add('todo__item', todo.type);
   todoNode.id = todo.id;
@@ -23,6 +23,8 @@ function showTodo(todo) {
   todoNode.appendChild(completeBtn);
   todoNode.appendChild(deleteBtn);
   todosContainer.appendChild(todoNode);
+
+  return todoNode;
 }
 
 function addTodo(e) {
@@ -35,7 +37,7 @@ function addTodo(e) {
       type: 'uncompleted',
     });
     inputTodo.value = '';
-    showTodo(todo);
+    createTodoItem(todo);
   } else {
     return null;
   }
