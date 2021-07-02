@@ -22,7 +22,6 @@ function createTodoItem(todo) {
   todoNode.appendChild(todoContent);
   todoNode.appendChild(completeBtn);
   todoNode.appendChild(deleteBtn);
-  todosContainer.appendChild(todoNode);
 
   return todoNode;
 }
@@ -37,7 +36,8 @@ function addTodo(e) {
       type: 'uncompleted',
     });
     inputTodo.value = '';
-    createTodoItem(todo);
+    const todoNode = createTodoItem(todo);
+    todosContainer.appendChild(todoNode);
   } else {
     return null;
   }
