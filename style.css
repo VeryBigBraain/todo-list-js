@@ -73,6 +73,7 @@ body {
 .todo-slider, .todo-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   font-size: 100%;
+  border: none;
 }
 .todo-slider::-webkit-slider-runnable-track {
   box-sizing: border-box;

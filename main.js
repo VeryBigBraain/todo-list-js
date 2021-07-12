@@ -1,7 +1,8 @@
 const todosContainer = document.querySelector('.todo-container');
-const addTodoBtn = document.querySelector('.add-btn');
+const addForm = document.querySelector('.todo-form');
 const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
+const inputDate = document.querySelector('.date-input');
 
 function createTodoItem(todo) {
   const todoNode = document.createElement('div');
@@ -50,7 +51,7 @@ function addTodo(e) {
   return true;
 }
 
-addTodoBtn.addEventListener('click', addTodo);
+addForm.addEventListener('submit', addTodo);
 
 const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
