@@ -13,7 +13,6 @@
   <link href="https://css.gg/check-o.css" rel="stylesheet">
   <title>ToDo</title>
 </head>
-
 <body>
   <div class="wrapper">
     <header>
@@ -25,23 +24,14 @@
       <div class="form-container">
         <form class="todo-form" action="submit">
           <input type="text" name="todo-input" class="todo-input">
+          <input type="range" min="1" max="5" value="3" class="todo-slider" name="rangeInput">
           <button class="add-btn btn" type="submit">
             <i class="gg-add-r"></i>
           </button>
         </form>
       </div>
       <ul class="todo-container">
-        <!-- Временные тодо для визуализации -->
-        <div class="todo__item complete">
-          <li class="todo__content ">I am first todo</li>
-          <button class="complete-btn btn"><i class="gg-check-o"></i></button>
-          <button class="delete-btn btn"><i class="gg-trash-empty"></i></button>
-        </div>
-        <div class="todo__item">
-          <li class="todo__content uncompleted">I am first todo</li>
-          <button class="complete-btn btn"><i class="gg-check-o"></i></button>
-          <button class="delete-btn btn"><i class="gg-trash-empty"></i></button>
-        </div>
+        
       </ul>
     </main>
   </div>
