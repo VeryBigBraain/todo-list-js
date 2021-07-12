@@ -45,7 +45,7 @@ body {
 
 .todo-input {
     height: 2.4rem;
-    width: 536px;
+    width: 500px;
     border: none;
     outline: none;
     padding: 5px 10px;
@@ -91,6 +91,21 @@ body {
   border-radius: 50%;
   background: var(--color);
   font-size: 100%;
+}
+
+.date-input {
+    padding: 5px 10px;
+    height: 2.4rem;
+    font-size: 1rem;
+    font-family: 'Cabin', sans-serif;
+    outline: none;
+    border: none;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    margin: 0;
+    color: transparent;
+    opacity: 1;
 }
 
 .btn {
@@ -172,9 +187,6 @@ i {
     }
     .todo-input {
         width: 72vw;
-    }
-    .filter-todo {
-        width: 18px;
     }
     .todo__content {
         width: 66vw;
