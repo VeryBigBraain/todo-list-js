@@ -4,6 +4,14 @@ const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
 const inputDate = document.querySelector('.date-input');
 
+function checkZero(timeVal) {
+  return timeVal.toString().length === 1 ? `0${timeVal}` : timeVal;
+}
+
+function formatDate(date) {
+  return `deadline: ${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+}
+
 function createTodoItem(todo) {
   const todoNode = document.createElement('div');
   todoNode.classList.add('todo__item', todo.type);
@@ -11,9 +19,18 @@ function createTodoItem(todo) {
   const todoContent = document.createElement('li');
   todoContent.classList.add('todo__content');
   todoContent.innerHTML = todo.content;
+  const priorityContainer = document.createElement('div');
+  priorityContainer.classList.add('priority-container');
   const priority = document.createElement('div');
   priority.classList.add('priority');
   priority.style.background = `hsl(calc(100 + -20 * ${todo.priority}), 100%, 50%)`;
+  priorityContainer.appendChild(priority);
+  const deadlineTimeContainer = document.createElement('div');
+  deadlineTimeContainer.classList.add('deadline-container');
+  const deadlineTime = document.createElement('span');
+  deadlineTime.classList.add('deadline');
+  deadlineTime.innerText = formatDate(todo.deadlineTime);
+  deadlineTimeContainer.appendChild(deadlineTime);
   const completeBtn = document.createElement('button');
   completeBtn.classList.add('complete-btn', 'btn');
   const completeIcon = document.createElement('i');
@@ -24,8 +41,9 @@ function createTodoItem(todo) {
   const deleteIcon = document.createElement('i');
   deleteIcon.classList.add('gg-trash-empty');
   deleteBtn.appendChild(deleteIcon);
-  todoContent.appendChild(priority);
   todoNode.appendChild(todoContent);
+  todoNode.appendChild(deadlineTimeContainer);
+  todoNode.appendChild(priorityContainer);
   todoNode.appendChild(completeBtn);
   todoNode.appendChild(deleteBtn);
 
@@ -35,12 +53,14 @@ function createTodoItem(todo) {
 function addTodo(e) {
   e.preventDefault();
   if (inputTodo.value.trim() !== '') {
+    const deadlineTime = new Date(inputDate.value);
     const now = new Date();
     const todo = ({
       id: now.getTime(),
       content: inputTodo.value,
       type: 'uncompleted',
       priority: inputRange.value,
+      deadlineTime,
     });
     inputTodo.value = '';
     const todoNode = createTodoItem(todo);
