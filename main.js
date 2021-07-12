@@ -68,6 +68,7 @@ function addTodo(e) {
       deadlineTime,
     });
     inputTodo.value = '';
+    inputDate.value = '';
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
   } else {
