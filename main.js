@@ -9,7 +9,7 @@ function checkZero(timeVal) {
 }
 
 function formatDate(date) {
-  return `deadline: ${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+  return `${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
 }
 
 function createTodoItem(todo) {
@@ -25,12 +25,17 @@ function createTodoItem(todo) {
   priority.classList.add('priority');
   priority.style.background = `hsl(calc(100 + -20 * ${todo.priority}), 100%, 50%)`;
   priorityContainer.appendChild(priority);
-  const deadlineTimeContainer = document.createElement('div');
-  deadlineTimeContainer.classList.add('deadline-container');
-  const deadlineTime = document.createElement('span');
-  deadlineTime.classList.add('deadline');
-  deadlineTime.innerText = formatDate(todo.deadlineTime);
-  deadlineTimeContainer.appendChild(deadlineTime);
+  const timeContainer = document.createElement('div');
+  timeContainer.classList.add('time-container');
+  const deadlineTime = document.createElement('div');
+  deadlineTime.classList.add('deadline-time');
+  deadlineTime.innerText = `deadline: ${formatDate(todo.deadlineTime)}`;
+  const createTime = document.createElement('div');
+  createTime.classList.add('create-time');
+  const now = new Date();
+  createTime.innerText = `created: ${formatDate(now)}`;
+  timeContainer.appendChild(deadlineTime);
+  timeContainer.appendChild(createTime);
   const completeBtn = document.createElement('button');
   completeBtn.classList.add('complete-btn', 'btn');
   const completeIcon = document.createElement('i');
@@ -42,7 +47,7 @@ function createTodoItem(todo) {
   deleteIcon.classList.add('gg-trash-empty');
   deleteBtn.appendChild(deleteIcon);
   todoNode.appendChild(todoContent);
-  todoNode.appendChild(deadlineTimeContainer);
+  todoNode.appendChild(timeContainer);
   todoNode.appendChild(priorityContainer);
   todoNode.appendChild(completeBtn);
   todoNode.appendChild(deleteBtn);

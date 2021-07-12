@@ -151,11 +151,11 @@ body {
     align-items: center;
 }
 
-.deadline-container {
+.time-container {
     padding: 5px 5px;
     color: #000;
     background: #fff;
-    font-size: 0.8rem;
+    font-size: 0.74rem;
 }
 
 .priority-container {
