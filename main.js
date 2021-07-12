@@ -13,39 +13,49 @@ function formatDate(date) {
 }
 
 function createTodoItem(todo) {
+  // Todo-item
   const todoNode = document.createElement('div');
   todoNode.classList.add('todo__item', todo.type);
   todoNode.id = todo.id;
+  // Todo content (text)
   const todoContent = document.createElement('li');
   todoContent.classList.add('todo__content');
   todoContent.innerHTML = todo.content;
-  const priorityContainer = document.createElement('div');
-  priorityContainer.classList.add('priority-container');
-  const priority = document.createElement('div');
-  priority.classList.add('priority');
-  priority.style.background = `hsl(calc(100 + -20 * ${todo.priority}), 100%, 50%)`;
-  priorityContainer.appendChild(priority);
+  // Time container
   const timeContainer = document.createElement('div');
   timeContainer.classList.add('time-container');
+  // Deadline
   const deadlineTime = document.createElement('div');
   deadlineTime.classList.add('deadline-time');
   deadlineTime.innerText = `deadline: ${formatDate(todo.deadlineTime)}`;
+  // Create
   const createTime = document.createElement('div');
   createTime.classList.add('create-time');
   const now = new Date();
   createTime.innerText = `created: ${formatDate(now)}`;
   timeContainer.appendChild(deadlineTime);
   timeContainer.appendChild(createTime);
+  // Priority container
+  const priorityContainer = document.createElement('div');
+  priorityContainer.classList.add('priority-container');
+  const priority = document.createElement('div');
+  // Priority icon
+  priority.classList.add('priority');
+  priority.style.background = `hsl(calc(100 + -20 * ${todo.priority}), 100%, 50%)`;
+  priorityContainer.appendChild(priority);
+  // Comlete btn
   const completeBtn = document.createElement('button');
   completeBtn.classList.add('complete-btn', 'btn');
   const completeIcon = document.createElement('i');
   completeIcon.classList.add('gg-check-o');
   completeBtn.appendChild(completeIcon);
+  // Delete btn
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('delete-btn', 'btn');
   const deleteIcon = document.createElement('i');
   deleteIcon.classList.add('gg-trash-empty');
   deleteBtn.appendChild(deleteIcon);
+  // Adding nodes
   todoNode.appendChild(todoContent);
   todoNode.appendChild(timeContainer);
   todoNode.appendChild(priorityContainer);
@@ -77,8 +87,7 @@ function addTodo(e) {
   return true;
 }
 
-addForm.addEventListener('submit', addTodo);
-
+// Range style
 const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
 R.style.setProperty('--max', +R.max);
@@ -87,3 +96,5 @@ R.style.setProperty('--min', +R.min);
 R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
+
+addForm.addEventListener('submit', addTodo);
