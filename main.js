@@ -77,10 +77,9 @@ function addTodo(e) {
       priority: inputRange.value,
       deadlineTime,
     });
-    inputTodo.value = '';
-    inputDate.value = '';
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
+    addForm.reset();
   } else {
     return null;
   }
