@@ -45,7 +45,7 @@ body {
 
 .todo-input {
     height: 2.4rem;
-    width: 536px;
+    width: 500px;
     border: none;
     outline: none;
     padding: 5px 10px;
@@ -73,6 +73,7 @@ body {
 .todo-slider, .todo-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   font-size: 100%;
+  border: none;
 }
 .todo-slider::-webkit-slider-runnable-track {
   box-sizing: border-box;
@@ -91,6 +92,21 @@ body {
   border-radius: 50%;
   background: var(--color);
   font-size: 100%;
+}
+
+.date-input {
+    padding: 5px 10px;
+    height: 2.4rem;
+    font-size: 1rem;
+    font-family: 'Cabin', sans-serif;
+    outline: none;
+    border: none;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    margin: 0;
+    color: transparent;
+    opacity: 1;
 }
 
 .btn {
@@ -133,7 +149,22 @@ body {
     color: #000;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+}
+
+.time-container {
+    padding: 5px 5px;
+    color: #000;
+    background: #fff;
+    font-size: 0.74rem;
+}
+
+.priority-container {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .priority{
@@ -172,9 +203,6 @@ i {
     }
     .todo-input {
         width: 72vw;
-    }
-    .filter-todo {
-        width: 18px;
     }
     .todo__content {
         width: 66vw;
