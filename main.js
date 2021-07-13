@@ -96,8 +96,6 @@ R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
 
-addForm.addEventListener('submit', addTodo);
-
 function deleteCheck(e) {
   const item = e.target;
   // Delete
@@ -122,3 +120,6 @@ function deleteCheck(e) {
     }));
   }
 }
+
+addForm.addEventListener('submit', addTodo);
+todosContainer.addEventListener('click', deleteCheck);
