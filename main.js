@@ -97,3 +97,28 @@ R.addEventListener('input', () => {
 }, false);
 
 addForm.addEventListener('submit', addTodo);
+
+function deleteCheck(e) {
+  const item = e.target;
+  // Delete
+  if (item.classList[0] === 'delete-btn') {
+    const todo = item.parentElement;
+    todos.filter((arrTodo) => todo.id !== arrTodo.id);
+    todo.remove();
+    localStorage.removeItem(todo.id);
+  }
+  // Check mark
+  if (item.classList[0] === 'complete-btn') {
+    const todo = item.parentElement;
+    todo.classList.toggle('complete');
+    todos.forEach(((arrTodo) => {
+      if (todo.id === String(arrTodo.id)) {
+        const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
+        localStorage.removeItem(arrTodo.id);
+        localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
+        return updatedTodo;
+      }
+      return arrTodo;
+    }));
+  }
+}
