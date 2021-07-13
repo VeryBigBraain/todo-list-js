@@ -3,14 +3,7 @@ const addForm = document.querySelector('.todo-form');
 const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
 const inputDate = document.querySelector('.date-input');
-
-function checkZero(timeVal) {
-  return timeVal.toString().length === 1 ? `0${timeVal}` : timeVal;
-}
-
-function formatDate(date) {
-  return `${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
-}
+let todos = [];
 
 function createTodoItem(todo) {
   // Todo-item
@@ -27,12 +20,11 @@ function createTodoItem(todo) {
   // Deadline
   const deadlineTime = document.createElement('div');
   deadlineTime.classList.add('deadline-time');
-  deadlineTime.innerText = `deadline: ${formatDate(todo.deadlineTime)}`;
+  deadlineTime.innerText = `deadline: ${todo.deadlineTime}`;
   // Create
   const createTime = document.createElement('div');
   createTime.classList.add('create-time');
-  const now = new Date();
-  createTime.innerText = `created: ${formatDate(now)}`;
+  createTime.innerText = `created: ${todo.createTime}`;
   timeContainer.appendChild(deadlineTime);
   timeContainer.appendChild(createTime);
   // Priority container
@@ -65,6 +57,39 @@ function createTodoItem(todo) {
   return todoNode;
 }
 
+function getLocalStorageData() {
+  if (localStorage.length > 0) {
+    const keys = Object.keys(localStorage);
+    let i = keys.length - 1;
+    while (i + 1) {
+      todos.push(JSON.parse(localStorage.getItem(keys[i])));
+      i -= 1;
+    }
+  }
+}
+
+// Sort array
+function byTodoField(field) {
+  return (a, b) => (a[field] > b[field] ? 1 : -1);
+}
+
+function prepareTodosToShow() {
+  getLocalStorageData();
+  todos.sort(byTodoField('id'));
+  todos.forEach((todo) => {
+    const todoNode = createTodoItem(todo);
+    todosContainer.appendChild(todoNode);
+  });
+}
+
+function checkZero(timeVal) {
+  return timeVal.toString().length === 1 ? `0${timeVal}` : timeVal;
+}
+
+function formatDate(date) {
+  return `${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+}
+
 function addTodo(e) {
   e.preventDefault();
   if (inputTodo.value.trim() !== '') {
@@ -75,26 +100,19 @@ function addTodo(e) {
       content: inputTodo.value,
       type: 'uncompleted',
       priority: inputRange.value,
-      deadlineTime,
+      deadlineTime: formatDate(deadlineTime),
+      createTime: formatDate(now),
     });
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
+    todos.push(todo);
+    localStorage.setItem(todo.id, JSON.stringify(todo));
     addForm.reset();
   } else {
     return null;
   }
   return true;
 }
-
-// Range style
-const R = document.querySelector('[type=range]');
-R.style.setProperty('--val', +R.value);
-R.style.setProperty('--max', +R.max);
-R.style.setProperty('--min', +R.min);
-
-R.addEventListener('input', () => {
-  R.style.setProperty('--val', +R.value);
-}, false);
 
 function deleteCheck(e) {
   const item = e.target;
@@ -121,5 +139,23 @@ function deleteCheck(e) {
   }
 }
 
+// Range style
+const R = document.querySelector('[type=range]');
+R.style.setProperty('--val', +R.value);
+R.style.setProperty('--max', +R.max);
+R.style.setProperty('--min', +R.min);
+
+R.addEventListener('input', () => {
+  R.style.setProperty('--val', +R.value);
+}, false);
+
+function updateTodos() {
+  todos = [];
+  todosContainer.innerHTML = '';
+  prepareTodosToShow();
+}
+
+prepareTodosToShow();
 addForm.addEventListener('submit', addTodo);
 todosContainer.addEventListener('click', deleteCheck);
+window.addEventListener('storage', updateTodos);
