@@ -125,6 +125,27 @@ body {
     color: #fff;
 }
 
+.sort-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0px 0px 20px;
+    font-size: 1.2rem;
+}
+
+.sort-label {
+    padding: 0px 10px 0px 0px;
+}
+
+.sort-todo {
+    padding: 5px;
+    outline: none;
+    border-radius: 10px;
+    border: none;
+    background-color: #000;
+    color: white;
+}
+
 .todo-container {
     padding: 0px 30px;
     display: flex;
@@ -152,6 +173,7 @@ body {
 }
 
 .time-container {
+    width: 150px;
     padding: 5px 5px;
     color: #000;
     background: #fff;

@@ -3,6 +3,7 @@ const addForm = document.querySelector('.todo-form');
 const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
 const inputDate = document.querySelector('.date-input');
+const sortSelect = document.querySelector('.sort-todo');
 let todos = [];
 
 function createTodoItem(todo) {
@@ -70,12 +71,12 @@ function getLocalStorageData() {
 
 // Sort array
 function byTodoField(field) {
-  return (a, b) => (a[field] > b[field] ? 1 : -1);
+  return (a, b) => (+a[field] > +b[field] ? 1 : -1);
 }
 
-function prepareTodosToShow() {
+function prepareTodosToShow(fieldToSort) {
   getLocalStorageData();
-  todos.sort(byTodoField('id'));
+  todos.sort(byTodoField(fieldToSort));
   todos.forEach((todo) => {
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
@@ -96,12 +97,14 @@ function addTodo(e) {
     const deadlineTime = new Date(inputDate.value);
     const now = new Date();
     const todo = ({
-      id: now.getTime(),
       content: inputTodo.value,
       type: 'uncompleted',
       priority: inputRange.value,
       deadlineTime: formatDate(deadlineTime),
       createTime: formatDate(now),
+      deadlineSort: deadlineTime.getTime(),
+      createSort: now.getTime(),
+      id: now.getTime(),
     });
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
@@ -149,13 +152,14 @@ R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
 
-function updateTodos() {
+function updateTodos(fieldToSort = 'createSort') {
   todos = [];
   todosContainer.innerHTML = '';
-  prepareTodosToShow();
+  prepareTodosToShow(fieldToSort);
 }
 
-prepareTodosToShow();
+updateTodos();
 addForm.addEventListener('submit', addTodo);
 todosContainer.addEventListener('click', deleteCheck);
+sortSelect.addEventListener('click', () => updateTodos(sortSelect.value));
 window.addEventListener('storage', updateTodos);
