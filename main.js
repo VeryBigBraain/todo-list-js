@@ -12,6 +12,18 @@ function formatDate(date) {
   return `${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
 }
 
+function deleteTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.remove();
+}
+
+function completeTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.classList.toggle('complete');
+}
+
 function createTodoItem(todo) {
   // Todo-item
   const todoNode = document.createElement('div');
@@ -49,22 +61,22 @@ function createTodoItem(todo) {
   const completeIcon = document.createElement('i');
   completeIcon.classList.add('gg-check-o');
   completeBtn.appendChild(completeIcon);
+  completeBtn.addEventListener('click', completeTodo);
   // Delete btn
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('delete-btn', 'btn');
   const deleteIcon = document.createElement('i');
   deleteIcon.classList.add('gg-trash-empty');
   deleteBtn.appendChild(deleteIcon);
+  deleteBtn.addEventListener('click', deleteTodo);
   // Adding nodes
   todoNode.appendChild(todoContent);
   todoNode.appendChild(timeContainer);
   todoNode.appendChild(priorityContainer);
   todoNode.appendChild(completeBtn);
   todoNode.appendChild(deleteBtn);
-
   return todoNode;
 }
-
 function addTodo(e) {
   e.preventDefault();
   if (inputTodo.value.trim() !== '') {
@@ -77,48 +89,23 @@ function addTodo(e) {
       priority: inputRange.value,
       deadlineTime,
     });
+    // Create todo node
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
+    // Reset form
     addForm.reset();
   } else {
     return null;
   }
   return true;
 }
-
 // Range style
 const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
 R.style.setProperty('--max', +R.max);
 R.style.setProperty('--min', +R.min);
-
 R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
 
 addForm.addEventListener('submit', addTodo);
-
-function deleteCheck(e) {
-  const item = e.target;
-  // Delete
-  if (item.classList[0] === 'delete-btn') {
-    const todo = item.parentElement;
-    todos.filter((arrTodo) => todo.id !== arrTodo.id);
-    todo.remove();
-    localStorage.removeItem(todo.id);
-  }
-  // Check mark
-  if (item.classList[0] === 'complete-btn') {
-    const todo = item.parentElement;
-    todo.classList.toggle('complete');
-    todos.forEach(((arrTodo) => {
-      if (todo.id === String(arrTodo.id)) {
-        const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
-        localStorage.removeItem(arrTodo.id);
-        localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
-        return updatedTodo;
-      }
-      return arrTodo;
-    }));
-  }
-}
