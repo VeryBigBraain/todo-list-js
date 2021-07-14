@@ -2,14 +2,32 @@ const todosContainer = document.querySelector('.todo-container');
 const addForm = document.querySelector('.todo-form');
 const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
+const R = document.querySelector('[type=range]');
 const inputDate = document.querySelector('.date-input');
+let todos = [];
 
-function checkZero(timeVal) {
-  return timeVal.toString().length === 1 ? `0${timeVal}` : timeVal;
+function deleteTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todos.filter((arrTodo) => todo.id !== arrTodo.id);
+  todo.remove();
+  localStorage.removeItem(todo.id);
 }
 
-function formatDate(date) {
-  return `${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+function completeTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.classList.toggle('complete');
+  todos.forEach(((arrTodo) => {
+    if (todo.id === String(arrTodo.id)) {
+      // Set type equal complete if the todo has that class
+      const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
+      localStorage.removeItem(arrTodo.id);
+      localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
+      return updatedTodo;
+    }
+    return arrTodo;
+  }));
 }
 
 function deleteTodo(e) {
@@ -39,12 +57,11 @@ function createTodoItem(todo) {
   // Deadline
   const deadlineTime = document.createElement('div');
   deadlineTime.classList.add('deadline-time');
-  deadlineTime.innerText = `deadline: ${formatDate(todo.deadlineTime)}`;
+  deadlineTime.innerText = `deadline: ${todo.deadlineTime}`;
   // Create
   const createTime = document.createElement('div');
   createTime.classList.add('create-time');
-  const now = new Date();
-  createTime.innerText = `created: ${formatDate(now)}`;
+  createTime.innerText = `created: ${todo.createTime}`;
   timeContainer.appendChild(deadlineTime);
   timeContainer.appendChild(createTime);
   // Priority container
@@ -77,6 +94,40 @@ function createTodoItem(todo) {
   todoNode.appendChild(deleteBtn);
   return todoNode;
 }
+
+function getLocalStorageData() {
+  if (localStorage.length > 0) {
+    const keys = Object.keys(localStorage);
+    let i = keys.length - 1;
+    while (i + 1) {
+      todos.push(JSON.parse(localStorage.getItem(keys[i])));
+      i -= 1;
+    }
+  }
+}
+
+// Sort array
+function byTodoField(field) {
+  return (a, b) => (a[field] > b[field] ? 1 : -1);
+}
+
+function prepareTodosToShow(todoSortField) {
+  getLocalStorageData();
+  todos.sort(byTodoField(todoSortField));
+  todos.forEach((todo) => {
+    const todoNode = createTodoItem(todo);
+    todosContainer.appendChild(todoNode);
+  });
+}
+
+function checkZero(timeVal) {
+  return timeVal.toString().length === 1 ? `0${timeVal}` : timeVal;
+}
+
+function formatDate(date) {
+  return `${checkZero(date.getHours())}:${checkZero(date.getMinutes())} ${checkZero(date.getDate())}.${checkZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+}
+
 function addTodo(e) {
   e.preventDefault();
   if (inputTodo.value.trim() !== '') {
@@ -87,20 +138,28 @@ function addTodo(e) {
       content: inputTodo.value,
       type: 'uncompleted',
       priority: inputRange.value,
-      deadlineTime,
+      deadlineTime: formatDate(deadlineTime),
+      createTime: formatDate(now),
     });
     // Create todo node
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
-    // Reset form
+    todos.push(todo);
+    localStorage.setItem(todo.id, JSON.stringify(todo));
     addForm.reset();
+    R.style.setProperty('--val', 3);
   } else {
     return null;
   }
   return true;
 }
+
+function updateTodos(todoSortField = 'id') {
+  todos = [];
+  todosContainer.innerHTML = '';
+  prepareTodosToShow(todoSortField);
+}
 // Range style
-const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
 R.style.setProperty('--max', +R.max);
 R.style.setProperty('--min', +R.min);
@@ -108,4 +167,6 @@ R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
 
+updateTodos();
 addForm.addEventListener('submit', addTodo);
+window.addEventListener('storage', updateTodos);
