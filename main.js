@@ -146,10 +146,6 @@ function updateTodos(todoSortField = 'id') {
   prepareTodosToShow(todoSortField);
 }
 
-updateTodos();
-addForm.addEventListener('submit', addTodo);
-window.addEventListener('storage', updateTodos);
-
 // Range style
 const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
@@ -159,3 +155,7 @@ R.style.setProperty('--min', +R.min);
 R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
+
+updateTodos();
+addForm.addEventListener('submit', addTodo);
+window.addEventListener('storage', updateTodos);
