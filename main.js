@@ -5,6 +5,30 @@ const inputRange = document.querySelector('.todo-slider');
 const inputDate = document.querySelector('.date-input');
 let todos = [];
 
+function deleteTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todos.filter((arrTodo) => todo.id !== arrTodo.id);
+  todo.remove();
+  localStorage.removeItem(todo.id);
+}
+
+function completeTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.classList.toggle('complete');
+  todos.forEach(((arrTodo) => {
+    if (todo.id === String(arrTodo.id)) {
+      // Set type equal complete if the todo has that class
+      const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
+      localStorage.removeItem(arrTodo.id);
+      localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
+      return updatedTodo;
+    }
+    return arrTodo;
+  }));
+}
+
 function createTodoItem(todo) {
   // Todo-item
   const todoNode = document.createElement('div');
@@ -41,12 +65,14 @@ function createTodoItem(todo) {
   const completeIcon = document.createElement('i');
   completeIcon.classList.add('gg-check-o');
   completeBtn.appendChild(completeIcon);
+  completeBtn.addEventListener('click', completeTodo);
   // Delete btn
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('delete-btn', 'btn');
   const deleteIcon = document.createElement('i');
   deleteIcon.classList.add('gg-trash-empty');
   deleteBtn.appendChild(deleteIcon);
+  deleteBtn.addEventListener('click', deleteTodo);
   // Adding nodes
   todoNode.appendChild(todoContent);
   todoNode.appendChild(timeContainer);
@@ -73,9 +99,9 @@ function byTodoField(field) {
   return (a, b) => (a[field] > b[field] ? 1 : -1);
 }
 
-function prepareTodosToShow() {
+function prepareTodosToShow(todoSortField) {
   getLocalStorageData();
-  todos.sort(byTodoField('id'));
+  todos.sort(byTodoField(todoSortField));
   todos.forEach((todo) => {
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
@@ -114,30 +140,15 @@ function addTodo(e) {
   return true;
 }
 
-function deleteCheck(e) {
-  const item = e.target;
-  // Delete
-  if (item.classList[0] === 'delete-btn') {
-    const todo = item.parentElement;
-    todos.filter((arrTodo) => todo.id !== arrTodo.id);
-    todo.remove();
-    localStorage.removeItem(todo.id);
-  }
-  // Check mark
-  if (item.classList[0] === 'complete-btn') {
-    const todo = item.parentElement;
-    todo.classList.toggle('complete');
-    todos.forEach(((arrTodo) => {
-      if (todo.id === String(arrTodo.id)) {
-        const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
-        localStorage.removeItem(arrTodo.id);
-        localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
-        return updatedTodo;
-      }
-      return arrTodo;
-    }));
-  }
+function updateTodos(todoSortField = 'id') {
+  todos = [];
+  todosContainer.innerHTML = '';
+  prepareTodosToShow(todoSortField);
 }
+
+updateTodos();
+addForm.addEventListener('submit', addTodo);
+window.addEventListener('storage', updateTodos);
 
 // Range style
 const R = document.querySelector('[type=range]');
@@ -148,14 +159,3 @@ R.style.setProperty('--min', +R.min);
 R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
-
-function updateTodos() {
-  todos = [];
-  todosContainer.innerHTML = '';
-  prepareTodosToShow();
-}
-
-prepareTodosToShow();
-addForm.addEventListener('submit', addTodo);
-todosContainer.addEventListener('click', deleteCheck);
-window.addEventListener('storage', updateTodos);
