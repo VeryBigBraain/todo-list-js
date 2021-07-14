@@ -2,6 +2,7 @@ const todosContainer = document.querySelector('.todo-container');
 const addForm = document.querySelector('.todo-form');
 const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
+const R = document.querySelector('[type=range]');
 const inputDate = document.querySelector('.date-input');
 let todos = [];
 
@@ -134,6 +135,7 @@ function addTodo(e) {
     todos.push(todo);
     localStorage.setItem(todo.id, JSON.stringify(todo));
     addForm.reset();
+    R.style.setProperty('--val', 3);
   } else {
     return null;
   }
@@ -147,7 +149,6 @@ function updateTodos(todoSortField = 'id') {
 }
 
 // Range style
-const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
 R.style.setProperty('--max', +R.max);
 R.style.setProperty('--min', +R.min);
