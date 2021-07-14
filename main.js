@@ -30,6 +30,18 @@ function completeTodo(e) {
   }));
 }
 
+function deleteTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.remove();
+}
+
+function completeTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.classList.toggle('complete');
+}
+
 function createTodoItem(todo) {
   // Todo-item
   const todoNode = document.createElement('div');
@@ -80,7 +92,6 @@ function createTodoItem(todo) {
   todoNode.appendChild(priorityContainer);
   todoNode.appendChild(completeBtn);
   todoNode.appendChild(deleteBtn);
-
   return todoNode;
 }
 
@@ -130,6 +141,7 @@ function addTodo(e) {
       deadlineTime: formatDate(deadlineTime),
       createTime: formatDate(now),
     });
+    // Create todo node
     const todoNode = createTodoItem(todo);
     todosContainer.appendChild(todoNode);
     todos.push(todo);
@@ -147,12 +159,10 @@ function updateTodos(todoSortField = 'id') {
   todosContainer.innerHTML = '';
   prepareTodosToShow(todoSortField);
 }
-
 // Range style
 R.style.setProperty('--val', +R.value);
 R.style.setProperty('--max', +R.max);
 R.style.setProperty('--min', +R.min);
-
 R.addEventListener('input', () => {
   R.style.setProperty('--val', +R.value);
 }, false);
