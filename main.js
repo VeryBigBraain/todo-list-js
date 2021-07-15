@@ -4,7 +4,32 @@ const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
 const inputDate = document.querySelector('.date-input');
 const sortSelect = document.querySelector('.sort-todo');
+const R = document.querySelector('[type=range]');
 let todos = [];
+
+function deleteTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todos.filter((arrTodo) => todo.id !== arrTodo.id);
+  todo.remove();
+  localStorage.removeItem(todo.id);
+}
+
+function completeTodo(e) {
+  const item = e.target;
+  const todo = item.parentElement;
+  todo.classList.toggle('complete');
+  todos.forEach(((arrTodo) => {
+    if (todo.id === String(arrTodo.id)) {
+      // Set type equal complete if the todo has that class
+      const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
+      localStorage.removeItem(arrTodo.id);
+      localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
+      return updatedTodo;
+    }
+    return arrTodo;
+  }));
+}
 
 function createTodoItem(todo) {
   // Todo-item
@@ -42,12 +67,14 @@ function createTodoItem(todo) {
   const completeIcon = document.createElement('i');
   completeIcon.classList.add('gg-check-o');
   completeBtn.appendChild(completeIcon);
+  completeBtn.addEventListener('click', completeTodo);
   // Delete btn
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('delete-btn', 'btn');
   const deleteIcon = document.createElement('i');
   deleteIcon.classList.add('gg-trash-empty');
   deleteBtn.appendChild(deleteIcon);
+  deleteBtn.addEventListener('click', deleteTodo);
   // Adding nodes
   todoNode.appendChild(todoContent);
   todoNode.appendChild(timeContainer);
@@ -110,6 +137,8 @@ function addTodo(e) {
     todosContainer.appendChild(todoNode);
     todos.push(todo);
     localStorage.setItem(todo.id, JSON.stringify(todo));
+    // Reset form
+    R.style.setProperty('--val', 3);
     addForm.reset();
   } else {
     return null;
@@ -117,33 +146,7 @@ function addTodo(e) {
   return true;
 }
 
-function deleteCheck(e) {
-  const item = e.target;
-  // Delete
-  if (item.classList[0] === 'delete-btn') {
-    const todo = item.parentElement;
-    todos.filter((arrTodo) => todo.id !== arrTodo.id);
-    todo.remove();
-    localStorage.removeItem(todo.id);
-  }
-  // Check mark
-  if (item.classList[0] === 'complete-btn') {
-    const todo = item.parentElement;
-    todo.classList.toggle('complete');
-    todos.forEach(((arrTodo) => {
-      if (todo.id === String(arrTodo.id)) {
-        const updatedTodo = { ...arrTodo, type: todo.classList[todo.classList.length - 1] };
-        localStorage.removeItem(arrTodo.id);
-        localStorage.setItem(updatedTodo.id, JSON.stringify(updatedTodo));
-        return updatedTodo;
-      }
-      return arrTodo;
-    }));
-  }
-}
-
 // Range style
-const R = document.querySelector('[type=range]');
 R.style.setProperty('--val', +R.value);
 R.style.setProperty('--max', +R.max);
 R.style.setProperty('--min', +R.min);
@@ -160,6 +163,5 @@ function updateTodos(fieldToSort = 'createSort') {
 
 updateTodos();
 addForm.addEventListener('submit', addTodo);
-todosContainer.addEventListener('click', deleteCheck);
 sortSelect.addEventListener('click', () => updateTodos(sortSelect.value));
 window.addEventListener('storage', updateTodos);
