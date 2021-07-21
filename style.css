@@ -139,7 +139,7 @@ body {
 }
 
 .sort-todo {
-    padding: 5px;
+    padding: 6px;
     outline: none;
     border-radius: 10px;
     border: none;
@@ -148,13 +148,23 @@ body {
 }
 
 .sort-btn {
-    padding: 5px;
+    padding: 4px 4px 2px 4px;
     margin: 5px;
     outline: none;
     border-radius: 10px;
     border: none;
-    background-color: #000;
+    background-color: #fff;
     color: white;
+    transition: all 0.3s ease 0s;
+}
+
+.sort-btn_img{
+    width: 20px;
+    height: 20px;
+}
+
+.sort-btn:hover {
+    background: gray;
 }
 
 .todo-container {
