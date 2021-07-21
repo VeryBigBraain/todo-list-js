@@ -4,6 +4,7 @@ const inputTodo = document.querySelector('.todo-input');
 const inputRange = document.querySelector('.todo-slider');
 const inputDate = document.querySelector('.date-input');
 const sortSelect = document.querySelector('.sort-todo');
+const sortBtn = document.querySelector('.sort-btn');
 const R = document.querySelector('[type=range]');
 let todos = [];
 
@@ -98,6 +99,9 @@ function getLocalStorageData() {
 
 // Sort array
 function byTodoField(field) {
+  if (sortBtn.classList[1] === 'sort-direction') {
+    return (a, b) => (+a[field] < +b[field] ? 1 : -1);
+  }
   return (a, b) => (+a[field] > +b[field] ? 1 : -1);
 }
 
@@ -164,4 +168,8 @@ function updateTodos(fieldToSort = 'createSort') {
 updateTodos();
 addForm.addEventListener('submit', addTodo);
 sortSelect.addEventListener('click', () => updateTodos(sortSelect.value));
+sortBtn.addEventListener('click', () =>  {
+    sortBtn.classList.toggle('sort-direction');
+    updateTodos(sortSelect.value);
+  });
 window.addEventListener('storage', updateTodos);

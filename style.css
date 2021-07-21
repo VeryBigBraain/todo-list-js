@@ -129,6 +129,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 0px 0px 20px;
     font-size: 1.2rem;
 }
@@ -139,6 +140,16 @@ body {
 
 .sort-todo {
     padding: 5px;
+    outline: none;
+    border-radius: 10px;
+    border: none;
+    background-color: #000;
+    color: white;
+}
+
+.sort-btn {
+    padding: 5px;
+    margin: 5px;
     outline: none;
     border-radius: 10px;
     border: none;
